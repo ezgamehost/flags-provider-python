@@ -1,0 +1,59 @@
+[project]
+name = "ezgh-flags-openfeature"
+dynamic = ["version"]
+description = "OpenFeature provider for EZGH Feature Flags: local evaluation with flagd's core, kept current by the EZGH data plane."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+  "openfeature-sdk>=0.10,<0.11",
+  "openfeature-flagd-core==1.0.0",
+]
+classifiers = [
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://docs.ezghcloud.com/flags"
+Source = "https://github.com/ezgamehost/flags-provider-python"
+
+[dependency-groups]
+dev = [
+  "pytest==8.4.2",
+  "mypy==1.18.2",
+  "ruff==0.13.3",
+]
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/ezgh_flags/_version.py"
+pattern = "VERSION = \"(?P<version>[^\"]+)\""
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ezgh_flags"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/ezgh_flags", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+files = ["src", "tests"]
+mypy_path = "tests"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]

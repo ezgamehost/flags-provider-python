@@ -1,0 +1,3021 @@
+{
+  "name": "absent-attributes",
+  "description": "Review Focus 1: a clause on an absent or null attribute never matches, notIn and notSegmentMatch included; nested paths (company.plan) with the parent absent, null, a string, a number, an array or an object; paths through arrays and strings (a length segment reads only an object key); an empty context; a rollout whose bucketBy value is absent or unusable (not a string or an integer below 10^15) serves its first variation with a non-zero weight.",
+  "snapshot": {
+    "$schema": "https://flagd.dev/schema/v0/flags.json",
+    "metadata": {
+      "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
+      "snapshotVersion": 1,
+      "compiledAt": "2026-10-11T09:00:00Z"
+    },
+    "$evaluators": {
+      "vip": {
+        "and": [
+          {
+            "starts_with": [
+              {
+                "var": "targetingKey"
+              },
+              ""
+            ]
+          },
+          {
+            "in": [
+              {
+                "var": "targetingKey"
+              },
+              [
+                "user-vip"
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "flags": {
+      "absent-bucket": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "companyId"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "companyId"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "companyId"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "var": "companyId"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "companyId"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "companyId"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "companyId"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "companyId"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "companyId"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  50000
+                ],
+                [
+                  "false",
+                  50000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-bucket-zero-first": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "companyId"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "companyId"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "companyId"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "var": "companyId"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "companyId"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "companyId"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "companyId"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "companyId"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "companyId"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "false",
+                  0
+                ],
+                [
+                  "true",
+                  100000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-contains": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    "ro",
+                    {
+                      "var": "plan"
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-gt": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "and": [
+                    {
+                      "!==": [
+                        {
+                          "var": "age"
+                        },
+                        null
+                      ]
+                    },
+                    {
+                      "!": {
+                        "starts_with": [
+                          {
+                            "var": "age"
+                          },
+                          ""
+                        ]
+                      }
+                    },
+                    {
+                      "===": [
+                        {
+                          "var": "age"
+                        },
+                        {
+                          "var": "age"
+                        }
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "age"
+                        },
+                        {
+                          "merge": [
+                            {
+                              "var": "age"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "!": {
+                        "if": [
+                          {
+                            "===": [
+                              {
+                                "var": "age"
+                              },
+                              1
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "cat": [
+                                  {
+                                    "var": "age"
+                                  }
+                                ]
+                              },
+                              [
+                                "true",
+                                "True"
+                              ]
+                            ]
+                          },
+                          {
+                            "===": [
+                              {
+                                "var": "age"
+                              },
+                              true
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "!": {
+                        "if": [
+                          {
+                            "===": [
+                              {
+                                "var": "age"
+                              },
+                              0
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "cat": [
+                                  {
+                                    "var": "age"
+                                  }
+                                ]
+                              },
+                              [
+                                "false",
+                                "False"
+                              ]
+                            ]
+                          },
+                          {
+                            "===": [
+                              {
+                                "var": "age"
+                              },
+                              false
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "!==": [
+                        {
+                          "cat": [
+                            {
+                              "var": "age"
+                            }
+                          ]
+                        },
+                        "[object Object]"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  ">": [
+                    {
+                      "var": "age"
+                    },
+                    17
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-not-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "!==": [
+                    {
+                      "var": "plan"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "plan"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "plan"
+                          },
+                          [
+                            "pro"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-not-segment": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "!": {
+                    "$ref": "vip"
+                  }
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-semver-gt": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "appVersion"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "sem_ver": [
+                    {
+                      "var": "appVersion"
+                    },
+                    ">",
+                    "1.0.0"
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "absent-targeting-key": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  30000
+                ],
+                [
+                  "false",
+                  70000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "deep-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "===": [
+                    {
+                      "var": "a.0"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "===": [
+                    {
+                      "var": "a.b.0"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "a.b.c"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "a.b.c"
+                        },
+                        [
+                          "x"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "nested-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "===": [
+                    {
+                      "var": "company.0"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "company.plan"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "company.plan"
+                        },
+                        [
+                          "pro"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "nested-not-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "===": [
+                    {
+                      "var": "company.0"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "!==": [
+                        {
+                          "var": "company.plan"
+                        },
+                        null
+                      ]
+                    },
+                    {
+                      "!": {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "company.plan"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "company.plan"
+                              },
+                              [
+                                "pro"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "path-length": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "===": [
+                    {
+                      "var": "tags.0"
+                    },
+                    null
+                  ]
+                },
+                {
+                  "!": {
+                    "starts_with": [
+                      {
+                        "var": "tags"
+                      },
+                      ""
+                    ]
+                  }
+                },
+                {
+                  "or": [
+                    {
+                      "!": {
+                        "===": [
+                          {
+                            "var": "tags"
+                          },
+                          {
+                            "var": "tags"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "tags"
+                        },
+                        {
+                          "merge": [
+                            {
+                              "var": "tags"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "tags.length"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "tags.length"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "tags.length"
+                            },
+                            {
+                              "var": "tags.length"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "tags.length"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "tags.length"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "tags.length"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "tags.length"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "tags.length"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "tags.length"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "tags.length"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "tags.length"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "tags.length"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      ">=": [
+                        {
+                          "var": "tags.length"
+                        },
+                        0
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "other": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "other": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-contains",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "other": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "age": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "age": 30,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "age": 0,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-semver-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-semver-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "appVersion": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-semver-gt",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "appVersion": "1.0.1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-segment",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-segment",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-vip"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-segment",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-other"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-not-segment",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": 5,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": true,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [
+          "pro"
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [
+          {
+            "plan": "pro"
+          }
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {},
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": "pro"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": "free"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": null
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": [
+            "pro"
+          ]
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "0": "x",
+          "plan": "pro"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": 5,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": true,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [
+          "pro"
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": [
+          {
+            "plan": "pro"
+          }
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {},
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": "pro"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": "free"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": null
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "plan": [
+            "pro"
+          ]
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "nested-not-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "company": {
+          "0": "x",
+          "plan": "pro"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": "x",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": {
+          "b": "x"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": {
+          "b": {
+            "c": "x"
+          }
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": {
+          "b": {
+            "c": "y"
+          }
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": {
+          "b": [
+            "x"
+          ]
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": [
+          {
+            "b": {
+              "c": "x"
+            }
+          }
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "deep-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "a": {
+          "b": {
+            "c": null
+          }
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": true,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": 1.5,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": [
+          "c-1"
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": {
+          "id": "c-1"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": 1000000000000000,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": "c-1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": true,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": 1.5,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": [
+          "c-1"
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": {
+          "id": "c-1"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": 1000000000000000,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-bucket-zero-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "companyId": "c-1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-targeting-key",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-targeting-key",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "absent-targeting-key",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": ""
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": [],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": "",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": [
+          "a"
+        ],
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": "abc",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": {
+          "0": "a",
+          "length": 2
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": {
+          "length": 2
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": {
+          "0": "a"
+        },
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "tags": null,
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "path-length",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    }
+  ]
+}

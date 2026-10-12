@@ -1,0 +1,2490 @@
+{
+  "name": "segments",
+  "description": "Segments: included, excluded beats included, excluded beats a rule match, rule match (rules ORed, clauses ANDed), no match, an empty segment matches nobody, notSegmentMatch, several segments in one clause (ORed), a segment and an attribute in one rule.",
+  "snapshot": {
+    "$schema": "https://flagd.dev/schema/v0/flags.json",
+    "metadata": {
+      "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
+      "snapshotVersion": 1,
+      "compiledAt": "2026-10-11T09:00:00Z"
+    },
+    "$evaluators": {
+      "beta-testers": {
+        "and": [
+          {
+            "!": {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    [
+                      "user-3"
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "and": [
+              {
+                "starts_with": [
+                  {
+                    "var": "targetingKey"
+                  },
+                  ""
+                ]
+              },
+              {
+                "in": [
+                  {
+                    "var": "targetingKey"
+                  },
+                  [
+                    "user-1",
+                    "user-2",
+                    "user-3"
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "everyone-but": {
+        "and": [
+          {
+            "!": {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    [
+                      "user-x"
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "and": [
+              {
+                "!==": [
+                  {
+                    "var": "plan"
+                  },
+                  null
+                ]
+              },
+              {
+                "!": {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "plan"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "plan"
+                        },
+                        [
+                          "__none__"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "nobody": false,
+      "pro-users": {
+        "and": [
+          {
+            "!": {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    [
+                      "user-11"
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "or": [
+              {
+                "and": [
+                  {
+                    "starts_with": [
+                      {
+                        "var": "targetingKey"
+                      },
+                      ""
+                    ]
+                  },
+                  {
+                    "in": [
+                      {
+                        "var": "targetingKey"
+                      },
+                      [
+                        "user-10"
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "and": [
+                  {
+                    "starts_with": [
+                      {
+                        "var": "plan"
+                      },
+                      ""
+                    ]
+                  },
+                  {
+                    "in": [
+                      {
+                        "var": "plan"
+                      },
+                      [
+                        "pro"
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "and": [
+                  {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "plan"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "plan"
+                          },
+                          [
+                            "team"
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "and": [
+                      {
+                        "and": [
+                          {
+                            "!==": [
+                              {
+                                "var": "seats"
+                              },
+                              null
+                            ]
+                          },
+                          {
+                            "!": {
+                              "starts_with": [
+                                {
+                                  "var": "seats"
+                                },
+                                ""
+                              ]
+                            }
+                          },
+                          {
+                            "===": [
+                              {
+                                "var": "seats"
+                              },
+                              {
+                                "var": "seats"
+                              }
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "seats"
+                              },
+                              {
+                                "merge": [
+                                  {
+                                    "var": "seats"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "!": {
+                              "if": [
+                                {
+                                  "===": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    1
+                                  ]
+                                },
+                                {
+                                  "in": [
+                                    {
+                                      "cat": [
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    },
+                                    [
+                                      "true",
+                                      "True"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "===": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    true
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "!": {
+                              "if": [
+                                {
+                                  "===": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    0
+                                  ]
+                                },
+                                {
+                                  "in": [
+                                    {
+                                      "cat": [
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    },
+                                    [
+                                      "false",
+                                      "False"
+                                    ]
+                                  ]
+                                },
+                                {
+                                  "===": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    false
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "!==": [
+                              {
+                                "cat": [
+                                  {
+                                    "var": "seats"
+                                  }
+                                ]
+                              },
+                              "[object Object]"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        ">=": [
+                          {
+                            "var": "seats"
+                          },
+                          10
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "flags": {
+      "seg-and-attr": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "$ref": "pro-users"
+                },
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "country"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "country"
+                        },
+                        [
+                          "US"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-any": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "$ref": "beta-testers"
+                },
+                {
+                  "$ref": "pro-users"
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-beta": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 3,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "$ref": "beta-testers"
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-everyone-but": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "$ref": "everyone-but"
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-nobody": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "$ref": "nobody"
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-not-beta": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "!": {
+                    "$ref": "beta-testers"
+                  }
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-not-nobody": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "!": {
+                    "$ref": "nobody"
+                  }
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-pro": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "$ref": "pro-users"
+            },
+            "true"
+          ]
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-pro",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-any",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-beta",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-not-nobody",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-and-attr",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-3"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-10"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-11"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 10,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": 9,
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "team",
+        "seats": "10",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "country": "US",
+        "plan": "pro",
+        "targetingKey": "user-12"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-x"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-everyone-but",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": null,
+        "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    }
+  ]
+}

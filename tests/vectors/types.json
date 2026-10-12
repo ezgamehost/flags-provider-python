@@ -1,0 +1,468 @@
+{
+  "name": "types",
+  "description": "String, number (integer and fraction, negative) and object flags, each served by a rule and by default; an off string flag; unknown number and object flags answer the caller's default.",
+  "snapshot": {
+    "$schema": "https://flagd.dev/schema/v0/flags.json",
+    "metadata": {
+      "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
+      "snapshotVersion": 1,
+      "compiledAt": "2026-10-11T09:00:00Z"
+    },
+    "flags": {
+      "banner-text": {
+        "state": "ENABLED",
+        "variants": {
+          "long": "Hello, wörld! \"quoted\"",
+          "short": "Hi"
+        },
+        "defaultVariant": "short",
+        "metadata": {
+          "flagVersion": 2,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "long"
+          ]
+        }
+      },
+      "checkout-config": {
+        "state": "ENABLED",
+        "variants": {
+          "basic": {
+            "steps": 3,
+            "theme": "light",
+            "features": [
+              "cart"
+            ]
+          },
+          "fancy": {
+            "steps": 1,
+            "theme": "dark",
+            "features": [
+              "cart",
+              "wallet"
+            ],
+            "limits": {
+              "max": 5,
+              "ratio": 0.5
+            },
+            "beta": true,
+            "note": null
+          }
+        },
+        "defaultVariant": "basic",
+        "metadata": {
+          "flagVersion": 5,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "fancy"
+          ]
+        }
+      },
+      "max-items": {
+        "state": "ENABLED",
+        "variants": {
+          "large": 1000,
+          "small": 10
+        },
+        "defaultVariant": "small",
+        "metadata": {
+          "flagVersion": 3,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "large"
+          ]
+        }
+      },
+      "sample-rate": {
+        "state": "ENABLED",
+        "variants": {
+          "high": 0.75,
+          "low": 0.05,
+          "negative": -1.5
+        },
+        "defaultVariant": "low",
+        "metadata": {
+          "flagVersion": 4,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "high",
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "test"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "negative"
+          ]
+        }
+      },
+      "string-off": {
+        "state": "ENABLED",
+        "variants": {
+          "a": "A",
+          "b": "B"
+        },
+        "defaultVariant": "b",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": false
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "flag": "banner-text",
+      "type": "string",
+      "default": "default",
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "Hello, wörld! \"quoted\"",
+        "variant": "long",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 2
+      }
+    },
+    {
+      "flag": "max-items",
+      "type": "number",
+      "default": -1,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": 1000,
+        "variant": "large",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "sample-rate",
+      "type": "number",
+      "default": 0,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": 0.75,
+        "variant": "high",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 4
+      }
+    },
+    {
+      "flag": "checkout-config",
+      "type": "object",
+      "default": {},
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": {
+          "beta": true,
+          "features": [
+            "cart",
+            "wallet"
+          ],
+          "limits": {
+            "max": 5,
+            "ratio": 0.5
+          },
+          "note": null,
+          "steps": 1,
+          "theme": "dark"
+        },
+        "variant": "fancy",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "banner-text",
+      "type": "string",
+      "default": "default",
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "Hi",
+        "variant": "short",
+        "reason": "DEFAULT",
+        "flagVersion": 2
+      }
+    },
+    {
+      "flag": "max-items",
+      "type": "number",
+      "default": -1,
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": 10,
+        "variant": "small",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "sample-rate",
+      "type": "number",
+      "default": 0,
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": 0.05,
+        "variant": "low",
+        "reason": "DEFAULT",
+        "flagVersion": 4
+      }
+    },
+    {
+      "flag": "checkout-config",
+      "type": "object",
+      "default": {},
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": {
+          "features": [
+            "cart"
+          ],
+          "steps": 3,
+          "theme": "light"
+        },
+        "variant": "basic",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "banner-text",
+      "type": "string",
+      "default": "default",
+      "context": {
+        "plan": "test",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "Hi",
+        "variant": "short",
+        "reason": "DEFAULT",
+        "flagVersion": 2
+      }
+    },
+    {
+      "flag": "max-items",
+      "type": "number",
+      "default": -1,
+      "context": {
+        "plan": "test",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": 10,
+        "variant": "small",
+        "reason": "DEFAULT",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "sample-rate",
+      "type": "number",
+      "default": 0,
+      "context": {
+        "plan": "test",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": -1.5,
+        "variant": "negative",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 4
+      }
+    },
+    {
+      "flag": "checkout-config",
+      "type": "object",
+      "default": {},
+      "context": {
+        "plan": "test",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": {
+          "features": [
+            "cart"
+          ],
+          "steps": 3,
+          "theme": "light"
+        },
+        "variant": "basic",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "string-off",
+      "type": "string",
+      "default": "default",
+      "context": {},
+      "expect": {
+        "value": "B",
+        "variant": "b",
+        "reason": "DISABLED",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "no-such-number",
+      "type": "number",
+      "default": 7,
+      "context": {},
+      "expect": {
+        "value": 7,
+        "errorCode": "FLAG_NOT_FOUND"
+      }
+    },
+    {
+      "flag": "no-such-object",
+      "type": "object",
+      "default": {
+        "fallback": true
+      },
+      "context": {},
+      "expect": {
+        "value": {
+          "fallback": true
+        },
+        "errorCode": "FLAG_NOT_FOUND"
+      }
+    }
+  ]
+}

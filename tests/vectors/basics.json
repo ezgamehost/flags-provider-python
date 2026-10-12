@@ -1,0 +1,425 @@
+{
+  "name": "basics",
+  "description": "Evaluation order: off (DISABLED with the off value), static on, individual targets, first matching rule wins, no rule matching (DEFAULT), an archived flag (absent: FLAG_NOT_FOUND) and an unknown flag.",
+  "snapshot": {
+    "$schema": "https://flagd.dev/schema/v0/flags.json",
+    "metadata": {
+      "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
+      "snapshotVersion": 1,
+      "compiledAt": "2026-10-11T09:00:00Z"
+    },
+    "flags": {
+      "off-flag": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 4,
+          "enabled": false
+        }
+      },
+      "off-serving-true": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 2,
+          "enabled": false
+        }
+      },
+      "static-on": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 3,
+          "enabled": true
+        }
+      },
+      "targeted": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 5,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    [
+                      "user-1842",
+                      "user-2210"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "true",
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "false"
+          ]
+        }
+      },
+      "tiers": {
+        "state": "ENABLED",
+        "variants": {
+          "bronze": "bronze",
+          "gold": "gold",
+          "silver": "silver"
+        },
+        "defaultVariant": "bronze",
+        "metadata": {
+          "flagVersion": 6,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "enterprise"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "gold",
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "enterprise",
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "silver"
+          ]
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "flag": "off-flag",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DISABLED",
+        "flagVersion": 4
+      }
+    },
+    {
+      "flag": "off-flag",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DISABLED",
+        "flagVersion": 4
+      }
+    },
+    {
+      "flag": "off-serving-true",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "DISABLED",
+        "flagVersion": 2
+      }
+    },
+    {
+      "flag": "static-on",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "STATIC",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "static-on",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "STATIC",
+        "flagVersion": 3
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1842"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-2210"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-1843"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "USER-1842"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": ""
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "targeted",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 5
+      }
+    },
+    {
+      "flag": "tiers",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "plan": "enterprise",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "gold",
+        "variant": "gold",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 6
+      }
+    },
+    {
+      "flag": "tiers",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "plan": "pro",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "silver",
+        "variant": "silver",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 6
+      }
+    },
+    {
+      "flag": "tiers",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "plan": "free",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "bronze",
+        "variant": "bronze",
+        "reason": "DEFAULT",
+        "flagVersion": 6
+      }
+    },
+    {
+      "flag": "tiers",
+      "type": "string",
+      "default": "none",
+      "context": {},
+      "expect": {
+        "value": "bronze",
+        "variant": "bronze",
+        "reason": "DEFAULT",
+        "flagVersion": 6
+      }
+    },
+    {
+      "flag": "archived-flag",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "errorCode": "FLAG_NOT_FOUND"
+      }
+    },
+    {
+      "flag": "no-such-flag",
+      "type": "string",
+      "default": "fallback",
+      "context": {
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": "fallback",
+        "errorCode": "FLAG_NOT_FOUND"
+      }
+    }
+  ]
+}

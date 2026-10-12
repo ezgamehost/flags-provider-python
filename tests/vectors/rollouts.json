@@ -1,0 +1,7648 @@
+{
+  "name": "rollouts",
+  "description": "Percentage rollouts: buckets pinned per targetingKey (a 34/33/33 split over 200 users), 0/100000 and 100000/0, bucketBy companyId (strings, and integers bucketing like their digits), two flags with the same split bucketing a user differently (the flag key is part of the seed), a rollout served by a rule, a 0.001% slice.",
+  "snapshot": {
+    "$schema": "https://flagd.dev/schema/v0/flags.json",
+    "metadata": {
+      "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
+      "snapshotVersion": 1,
+      "compiledAt": "2026-10-11T09:00:00Z"
+    },
+    "flags": {
+      "all-first": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  100000
+                ],
+                [
+                  "false",
+                  0
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "all-second": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "false",
+                  0
+                ],
+                [
+                  "true",
+                  100000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "by-company": {
+        "state": "ENABLED",
+        "variants": {
+          "blue": "blue",
+          "green": "green",
+          "red": "red"
+        },
+        "defaultVariant": "red",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "companyId"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "companyId"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "companyId"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "var": "companyId"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "companyId"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "companyId"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "companyId"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "companyId"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "companyId"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "companyId"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "companyId"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "companyId"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "companyId"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "red",
+                  50000
+                ],
+                [
+                  "green",
+                  25000
+                ],
+                [
+                  "blue",
+                  25000
+                ]
+              ]
+            },
+            "red"
+          ]
+        }
+      },
+      "rule-rollout": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "plan"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "plan"
+                    },
+                    [
+                      "pro"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "if": [
+                {
+                  "or": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "targetingKey"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "and": [
+                        {
+                          "and": [
+                            {
+                              "!==": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                null
+                              ]
+                            },
+                            {
+                              "!": {
+                                "starts_with": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  ""
+                                ]
+                              }
+                            },
+                            {
+                              "===": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                {
+                                  "merge": [
+                                    {
+                                      "var": "targetingKey"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "!": {
+                                "if": [
+                                  {
+                                    "===": [
+                                      {
+                                        "var": "targetingKey"
+                                      },
+                                      1
+                                    ]
+                                  },
+                                  {
+                                    "in": [
+                                      {
+                                        "cat": [
+                                          {
+                                            "var": "targetingKey"
+                                          }
+                                        ]
+                                      },
+                                      [
+                                        "true",
+                                        "True"
+                                      ]
+                                    ]
+                                  },
+                                  {
+                                    "===": [
+                                      {
+                                        "var": "targetingKey"
+                                      },
+                                      true
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "!": {
+                                "if": [
+                                  {
+                                    "===": [
+                                      {
+                                        "var": "targetingKey"
+                                      },
+                                      0
+                                    ]
+                                  },
+                                  {
+                                    "in": [
+                                      {
+                                        "cat": [
+                                          {
+                                            "var": "targetingKey"
+                                          }
+                                        ]
+                                      },
+                                      [
+                                        "false",
+                                        "False"
+                                      ]
+                                    ]
+                                  },
+                                  {
+                                    "===": [
+                                      {
+                                        "var": "targetingKey"
+                                      },
+                                      false
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "!==": [
+                                {
+                                  "cat": [
+                                    {
+                                      "var": "targetingKey"
+                                    }
+                                  ]
+                                },
+                                "[object Object]"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "===": [
+                            {
+                              "%": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                1
+                              ]
+                            },
+                            0
+                          ]
+                        },
+                        {
+                          "<=": [
+                            -999999999999999,
+                            {
+                              "var": "targetingKey"
+                            },
+                            999999999999999
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "fractional": [
+                    {
+                      "cat": [
+                        {
+                          "var": "$flagd.flagKey"
+                        },
+                        ":",
+                        {
+                          "if": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "+": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                0
+                              ]
+                            }
+                          ]
+                        },
+                        ":"
+                      ]
+                    },
+                    [
+                      "true",
+                      10000
+                    ],
+                    [
+                      "false",
+                      90000
+                    ]
+                  ]
+                },
+                "true"
+              ]
+            }
+          ]
+        }
+      },
+      "split-a": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  50000
+                ],
+                [
+                  "false",
+                  50000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "split-b": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  50000
+                ],
+                [
+                  "false",
+                  50000
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "three-way": {
+        "state": "ENABLED",
+        "variants": {
+          "blue": "blue",
+          "green": "green",
+          "red": "red"
+        },
+        "defaultVariant": "red",
+        "metadata": {
+          "flagVersion": 7,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "red",
+                  34000
+                ],
+                [
+                  "green",
+                  33000
+                ],
+                [
+                  "blue",
+                  33000
+                ]
+              ]
+            },
+            "red"
+          ]
+        }
+      },
+      "tiny-slice": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "true",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "and": [
+                    {
+                      "and": [
+                        {
+                          "!==": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            null
+                          ]
+                        },
+                        {
+                          "!": {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          }
+                        },
+                        {
+                          "===": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "var": "targetingKey"
+                            }
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            {
+                              "merge": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  1
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "true",
+                                    "True"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!": {
+                            "if": [
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  0
+                                ]
+                              },
+                              {
+                                "in": [
+                                  {
+                                    "cat": [
+                                      {
+                                        "var": "targetingKey"
+                                      }
+                                    ]
+                                  },
+                                  [
+                                    "false",
+                                    "False"
+                                  ]
+                                ]
+                              },
+                              {
+                                "===": [
+                                  {
+                                    "var": "targetingKey"
+                                  },
+                                  false
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "!==": [
+                            {
+                              "cat": [
+                                {
+                                  "var": "targetingKey"
+                                }
+                              ]
+                            },
+                            "[object Object]"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "===": [
+                        {
+                          "%": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            1
+                          ]
+                        },
+                        0
+                      ]
+                    },
+                    {
+                      "<=": [
+                        -999999999999999,
+                        {
+                          "var": "targetingKey"
+                        },
+                        999999999999999
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "fractional": [
+                {
+                  "cat": [
+                    {
+                      "var": "$flagd.flagKey"
+                    },
+                    ":",
+                    {
+                      "if": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "var": "targetingKey"
+                        },
+                        {
+                          "+": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    ":"
+                  ]
+                },
+                [
+                  "true",
+                  1
+                ],
+                [
+                  "false",
+                  99999
+                ]
+              ]
+            },
+            "true"
+          ]
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0020"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0021"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0022"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0023"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0024"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0025"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0026"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0027"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0028"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0029"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0030"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0031"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0032"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0033"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0034"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0035"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0036"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0037"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0038"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0039"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0040"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0041"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0042"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0043"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0044"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0045"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0046"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0047"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0048"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0049"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0050"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0051"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0052"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0053"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0054"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0055"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0056"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0057"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0058"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0059"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0060"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0061"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0062"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0063"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0064"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0065"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0066"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0067"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0068"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0069"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0070"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0071"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0072"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0073"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0074"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0075"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0076"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0077"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0078"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0079"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0080"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0081"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0082"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0083"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0084"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0085"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0086"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0087"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0088"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0089"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0090"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0091"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0092"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0093"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0094"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0095"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0096"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0097"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0098"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0099"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0100"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0101"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0102"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0103"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0104"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0105"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0106"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0107"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0108"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0109"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0110"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0111"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0112"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0113"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0114"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0115"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0116"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0117"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0118"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0119"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0120"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0121"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0122"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0123"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0124"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0125"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0126"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0127"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0128"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0129"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0130"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0131"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0132"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0133"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0134"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0135"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0136"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0137"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0138"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0139"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0140"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0141"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0142"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0143"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0144"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0145"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0146"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0147"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0148"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0149"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0150"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0151"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0152"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0153"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0154"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0155"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0156"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0157"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0158"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0159"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0160"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0161"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0162"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0163"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0164"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0165"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0166"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0167"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0168"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0169"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0170"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0171"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0172"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0173"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0174"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0175"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0176"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0177"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0178"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0179"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0180"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0181"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0182"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0183"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0184"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0185"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0186"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0187"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0188"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0189"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0190"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0191"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0192"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0193"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0194"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0195"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0196"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0197"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0198"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "three-way",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "targetingKey": "user-0199"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 7
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-second",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "all-first",
+      "type": "boolean",
+      "default": false,
+      "context": {},
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-00",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-01",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-02",
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-03",
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-04",
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-05",
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-06",
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-07",
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-08",
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-09",
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-10",
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-11",
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-12",
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-13",
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-14",
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-15",
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-16",
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-17",
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-18",
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-19",
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-20",
+        "targetingKey": "user-0020"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-21",
+        "targetingKey": "user-0021"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-22",
+        "targetingKey": "user-0022"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-23",
+        "targetingKey": "user-0023"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-24",
+        "targetingKey": "user-0024"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-25",
+        "targetingKey": "user-0025"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-26",
+        "targetingKey": "user-0026"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-27",
+        "targetingKey": "user-0027"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-28",
+        "targetingKey": "user-0028"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-29",
+        "targetingKey": "user-0029"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-30",
+        "targetingKey": "user-0030"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-31",
+        "targetingKey": "user-0031"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-32",
+        "targetingKey": "user-0032"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-33",
+        "targetingKey": "user-0033"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-34",
+        "targetingKey": "user-0034"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-35",
+        "targetingKey": "user-0035"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-36",
+        "targetingKey": "user-0036"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-37",
+        "targetingKey": "user-0037"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-38",
+        "targetingKey": "user-0038"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-39",
+        "targetingKey": "user-0039"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 1,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "1",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 2,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "2",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 3,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "3",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 42,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "42",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "blue",
+        "variant": "blue",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 4242,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "4242",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 999999999999999,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "999999999999999",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": -7,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "-7",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": 0,
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "0",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": " padded ",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "company-01 ",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "ünïcødé",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "red",
+        "variant": "red",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "by-company",
+      "type": "string",
+      "default": "none",
+      "context": {
+        "companyId": "a:b",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": "green",
+        "variant": "green",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0020"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0020"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0021"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0021"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0022"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0022"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0023"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0023"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0024"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0024"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0025"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0025"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0026"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0026"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0027"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0027"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0028"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0028"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0029"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0029"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0030"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0030"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0031"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0031"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0032"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0032"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0033"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0033"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0034"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0034"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0035"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0035"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0036"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0036"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0037"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0037"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0038"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0038"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-a",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0039"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "split-b",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0039"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "rule-rollout",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "free",
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0000"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0001"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0002"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0003"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0004"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0005"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0006"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0007"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0008"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0009"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0010"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0011"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0012"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0013"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0014"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0015"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0016"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0017"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0018"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "tiny-slice",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "targetingKey": "user-0019"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    }
+  ]
+}
