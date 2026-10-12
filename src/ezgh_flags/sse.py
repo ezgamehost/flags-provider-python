@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass
 
 __all__ = ["Event", "read_sse"]
@@ -47,9 +47,9 @@ def _lines(chunks: Iterable[bytes]) -> Iterator[bytes]:
         buf = buf[start:]
 
 
-def read_sse(chunks: Iterable[bytes]) -> Iterator[Event]:
-    """Yields each dispatched event. Comments are skipped; a frame without data isn't dispatched,
-    nor is an unterminated frame at the end of the stream."""
+def read_sse(chunks: Iterable[bytes], *, on_comment: Callable[[str], None] | None = None) -> Iterator[Event]:
+    """Yields each dispatched event. Comments go to `on_comment` (text after the colon), if given;
+    a frame without data isn't dispatched, nor is an unterminated frame at the end of the stream."""
     event = ""
     data: list[str] = []
     event_id: str | None = None
@@ -65,6 +65,8 @@ def read_sse(chunks: Iterable[bytes]) -> Iterator[Event]:
             event, data, event_id = "", [], None
             continue
         if line.startswith(":"):
+            if on_comment is not None:
+                on_comment(line[1:].removeprefix(" "))
             continue
         field, sep, value = line.partition(":")
         if sep:

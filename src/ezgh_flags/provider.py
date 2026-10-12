@@ -55,6 +55,44 @@ class _Transient(Exception):
         self.retry_after = retry_after
 
 
+_FATAL_END_REASONS = ("revoked", "environmentDeleted")
+"""Stream end reasons after which the key can't work again."""
+
+
+class _Run:
+    """One initialize's sync thread: its own stop signal, socket and retry state, so an older
+    thread (a shutdown that raced initialize, or a join that timed out) never affects a newer one."""
+
+    def __init__(self) -> None:
+        self.stop = threading.Event()
+        self.failures = 0
+        self.disconnected_since: float | None = None
+        self.next_poll = 0.0
+        self._lock = threading.Lock()
+        self._sock: socket.socket | None = None
+
+    def attach(self, sock: socket.socket) -> bool:
+        """Records the stream's socket; False if the run already stopped."""
+        with self._lock:
+            if self.stop.is_set():
+                return False
+            self._sock = sock
+            return True
+
+    def detach(self) -> None:
+        with self._lock:
+            self._sock = None
+
+    def close(self) -> None:
+        """Stops the run and unblocks a stream read in progress."""
+        with self._lock:
+            self.stop.set()
+            sock = self._sock
+        if sock is not None:
+            with contextlib.suppress(OSError):
+                sock.shutdown(socket.SHUT_RDWR)
+
+
 class EzghProvider(AbstractProvider):
     """OpenFeature provider for EZGH Feature Flags (server side).
 
@@ -104,12 +142,8 @@ class EzghProvider(AbstractProvider):
         self._evaluator: Evaluator | None = None
         self._synced = False  # the evaluator came from the data plane (not a bootstrap file)
         self._state: _State = "not_ready"
-        self._stop = threading.Event()
+        self._run: _Run | None = None  # the current initialize's sync run
         self._thread: threading.Thread | None = None
-        self._sock: socket.socket | None = None  # the open stream's socket, for shutdown
-        self._failures = 0
-        self._disconnected_since: float | None = None
-        self._next_poll = 0.0
 
     def get_metadata(self) -> Metadata:
         return Metadata(name="ezgh-flags")
@@ -117,9 +151,11 @@ class EzghProvider(AbstractProvider):
     # ---- lifecycle
 
     def initialize(self, evaluation_context: EvaluationContext) -> None:
-        self._stop = threading.Event()
-        self._failures = 0
-        self._disconnected_since = None
+        run = _Run()
+        with self._lock:
+            previous, self._run = self._run, run
+        if previous is not None:
+            previous.close()
         if self._bootstrap_path is not None:
             try:
                 with open(self._bootstrap_path, "rb") as f:
@@ -142,38 +178,39 @@ class EzghProvider(AbstractProvider):
                 attempt += 1
                 try:
                     body = self._get_snapshot(conditional=False)
-                    assert body is not None
-                    self._install(body, emit=False)
+                    if body is None or not self._install(run, body, emit=False):
+                        raise _Transient("the data plane answered an invalid snapshot")
                     break
                 except _Fatal as err:
                     self._state = "fatal"
                     raise ProviderFatalError(str(err)) from err
                 except _Transient as err:
                     delay = self._delay(attempt, err.retry_after)
-                    if self._stop.is_set() or time.monotonic() + delay > deadline:
+                    if run.stop.is_set() or time.monotonic() + delay > deadline:
                         failure = err
                         break
                     logger.info("ezgh-flags: snapshot fetch failed (%s); retrying in %.1fs", err, delay)
-                    self._stop.wait(delay)
-                    if self._stop.is_set():
+                    if run.stop.wait(delay):
                         failure = err
                         break
 
+        if run.stop.is_set():
+            raise GeneralError("the provider was shut down during initialize")
         self._state = "error" if failure is not None else "ready"
-        self._thread = threading.Thread(target=self._run, name="ezgh-flags-sync", daemon=True)
-        self._thread.start()
+        thread = threading.Thread(target=self._sync, args=(run,), name="ezgh-flags-sync", daemon=True)
+        with self._lock:
+            self._thread = thread
+        thread.start()
         if failure is not None:
             # Not fatal: the sync thread keeps trying and emits PROVIDER_READY once loaded.
             raise GeneralError(f"can't load the flags snapshot: {failure}")
 
     def shutdown(self) -> None:
-        self._stop.set()
         with self._lock:
-            sock = self._sock
-        if sock is not None:
-            with contextlib.suppress(OSError):
-                sock.shutdown(socket.SHUT_RDWR)  # unblocks the sync thread's read
-        thread, self._thread = self._thread, None
+            run, self._run = self._run, None
+            thread, self._thread = self._thread, None
+        if run is not None:
+            run.close()
         if thread is not None and thread is not threading.current_thread():
             thread.join(timeout=5)
 
@@ -221,67 +258,76 @@ class EzghProvider(AbstractProvider):
     ) -> FlagResolutionDetails[Sequence[FlagValueType] | Mapping[str, FlagValueType]]:
         return self._resolve("object", flag_key, default_value, evaluation_context)
 
-    # ---- the sync thread
+    # ---- the sync thread (one per initialize, with its own _Run)
 
-    def _run(self) -> None:
+    def _sync(self, run: _Run) -> None:
+        while not run.stop.is_set():
+            try:
+                self._cycle(run)
+            except _Fatal as err:
+                self._fatal(run, str(err))
+                return
+            except Exception:
+                # Never exit silently: count it as a failed stream and keep going.
+                logger.exception("ezgh-flags: unexpected error in the sync thread")
+                self._failed(run)
+                run.stop.wait(self._delay(run.failures, None))
+
+    def _cycle(self, run: _Run) -> None:
+        """One stream connection, then whatever wait its outcome calls for."""
         try:
-            while not self._stop.is_set():
-                retry_after: float | None = None
-                try:
-                    reason = self._stream()
-                except _Transient as err:
-                    self._failures += 1
-                    retry_after = err.retry_after
-                    if self._disconnected_since is None:
-                        self._disconnected_since = time.monotonic()
-                    logger.info("ezgh-flags: stream failed (%s)", err)
-                else:
-                    if reason == "rotate":
-                        continue  # routine: reconnect at once
-                    # "shutdown" (the pod is draining) and anything else: reconnect after a jitter.
-                    self._failures = 0
-                    if self._stop.wait(random.uniform(0, self.min_backoff)):
-                        return
-                    continue
-                if not self._wait_before_retry(retry_after):
-                    return
-        except _Fatal as err:
-            self._fatal(str(err))
-        except Exception:  # never let the thread die silently
-            logger.exception("ezgh-flags: sync thread crashed")
+            reason = self._stream(run)
+        except _Transient as err:
+            logger.info("ezgh-flags: stream failed (%s)", err)
+            self._failed(run)
+            self._wait_before_retry(run, err.retry_after)
+            return
+        if reason is None or reason == "rotate":
+            return  # stopping, or a routine rotation: reconnect at once
+        if reason in _FATAL_END_REASONS:
+            raise _Fatal(f"the stream ended: {reason}")
+        # "shutdown" (the pod is draining) and anything else: reconnect after a jitter.
+        logger.debug("ezgh-flags: stream ended (%s)", reason)
+        run.stop.wait(random.uniform(0, self.min_backoff))
 
-    def _wait_before_retry(self, retry_after: float | None) -> bool:
-        """Waits out the backoff, polling and checking staleness meanwhile. False when stopping."""
-        resume_at = time.monotonic() + self._delay(self._failures, retry_after)
-        while not self._stop.is_set():
+    def _failed(self, run: _Run) -> None:
+        run.failures += 1
+        if run.disconnected_since is None:
+            run.disconnected_since = time.monotonic()
+
+    def _wait_before_retry(self, run: _Run, retry_after: float | None) -> None:
+        """Waits out the backoff, polling and checking staleness meanwhile."""
+        resume_at = time.monotonic() + self._delay(run.failures, retry_after)
+        while not run.stop.is_set():
             now = time.monotonic()
             if now >= resume_at:
-                return True
-            polling = self._failures >= self.stream_failures_before_poll
-            if polling and now >= self._next_poll:
-                self._next_poll = now + self.poll_interval
-                self._poll()
-            self._check_stale()
+                return
+            polling = run.failures >= self.stream_failures_before_poll
+            if polling and now >= run.next_poll:
+                run.next_poll = now + self.poll_interval
+                self._poll(run)
+            self._check_stale(run)
             wake = resume_at
             if polling:
-                wake = min(wake, self._next_poll)
-            if self._state == "ready" and self._disconnected_since is not None:
-                wake = min(wake, self._disconnected_since + self.stale_after)
-            self._stop.wait(max(0.0, wake - time.monotonic()))
-        return False
+                wake = min(wake, run.next_poll)
+            if self._state == "ready" and run.disconnected_since is not None:
+                wake = min(wake, run.disconnected_since + self.stale_after)
+            run.stop.wait(max(0.0, wake - time.monotonic()))
 
-    def _poll(self) -> None:
+    def _poll(self, run: _Run) -> None:
         try:
             body = self._get_snapshot(conditional=True)
         except _Transient as err:
             logger.info("ezgh-flags: snapshot poll failed (%s)", err)
+            if err.retry_after is not None:
+                run.next_poll = max(run.next_poll, time.monotonic() + err.retry_after)
             return
         if body is None:
-            self._contact()
+            self._contact(run)
         else:
-            self._install(body, emit=True)
+            self._install(run, body, emit=True)
 
-    def _stream(self) -> str | None:
+    def _stream(self, run: _Run) -> str | None:
         """One stream connection. Answers the end reason, or None when stopping."""
         conn = self._connection()
         resp: http.client.HTTPResponse | None = None
@@ -294,80 +340,97 @@ class EzghProvider(AbstractProvider):
             sock = conn.sock
             if not isinstance(sock, socket.socket):
                 raise _Transient("stream: no socket")
-            with self._lock:
-                self._sock = sock
-            if self._stop.is_set():
+            if not run.attach(sock):
                 return None
             resp = conn.getresponse()
             _check_status(resp)
+            content_type = (resp.getheader("Content-Type") or "").split(";")[0].strip().lower()
+            if content_type != "text/event-stream":
+                raise _Transient(f"stream: unexpected Content-Type {content_type!r}")
             sock.settimeout(self.stream_read_timeout)
-            self._failures = 0
-            self._contact()
-            for event in read_sse(iter(lambda: resp.read1(65536), b"")):
+            opened = False
+
+            def heard() -> None:
+                # The stream counts as connected once a frame or comment arrives, not at the 200.
+                nonlocal opened
+                if not opened:
+                    opened = True
+                    run.failures = 0
+                    self._contact(run)
+
+            body = resp
+            for event in read_sse(iter(lambda: body.read1(65536), b""), on_comment=lambda _: heard()):
+                heard()
                 if event.event == "snapshot":
-                    self._install(event.data, emit=True)
+                    self._install(run, event.data, emit=True)
                 elif event.event == "end":
-                    reason = _end_reason(event.data)
-                    if reason == "revoked":
-                        raise _Fatal("the SDK key was revoked")
-                    logger.debug("ezgh-flags: stream ended (%s)", reason)
-                    return reason
-            if self._stop.is_set():
+                    return _end_reason(event.data)
+            if run.stop.is_set():
                 return None
             raise _Transient("the stream closed without an end event")
         except (OSError, http.client.HTTPException) as err:
-            if self._stop.is_set():
+            if run.stop.is_set():
                 return None
             raise _Transient(f"stream: {err}") from err
         finally:
-            with self._lock:
-                self._sock = None
+            run.detach()
             if resp is not None:
                 resp.close()
             conn.close()
 
     # ---- state
 
-    def _install(self, snapshot: str | bytes, *, emit: bool) -> None:
+    def _install(self, run: _Run, snapshot: str | bytes, *, emit: bool) -> bool:
+        """Swaps in a snapshot. False when it's invalid (the current one stays) or the run stopped.
+        A snapshot older than the current one is ignored, though it still counts as contact."""
+        if run.stop.is_set():
+            return False
         try:
             evaluator = Evaluator(snapshot)
         except InvalidSnapshotError as err:
             logger.warning("ezgh-flags: ignoring an invalid snapshot: %s", err)
-            return
+            return False
         with self._lock:
             old = self._evaluator
-            unchanged = old is not None and self._synced and old.version == evaluator.version
-            if not unchanged:
+            keep = old is not None and self._synced and evaluator.version <= old.version
+            if not keep:
                 self._evaluator = evaluator
                 self._synced = True
-        if not unchanged and emit and old is not None:
-            changed = changed_keys(old.flag_versions(), evaluator.flag_versions())
+        if keep and old is not None and evaluator.version < old.version:
+            logger.info("ezgh-flags: ignoring snapshot %d, older than %d", evaluator.version, old.version)
+        if not keep and emit and old is not None:
+            changed = changed_keys(old.fingerprints(), evaluator.fingerprints())
             self.emit_provider_configuration_changed(
                 ProviderEventDetails(flags_changed=changed, metadata={"snapshotVersion": evaluator.version})
             )
-        self._contact()
+        self._contact(run)
+        return True
 
-    def _contact(self) -> None:
+    def _contact(self, run: _Run) -> None:
         """The data plane answered: not disconnected, and ready again if it was stale or failing."""
-        self._disconnected_since = None
+        run.disconnected_since = None
         with self._lock:
             # "not_ready": initialize hasn't returned, and the SDK emits READY when it does.
-            if self._evaluator is None or self._state not in ("stale", "error"):
+            if run.stop.is_set() or self._evaluator is None or self._state not in ("stale", "error"):
                 return
             self._state = "ready"
         self.emit_provider_ready(ProviderEventDetails())
 
-    def _check_stale(self) -> None:
-        since = self._disconnected_since
+    def _check_stale(self, run: _Run) -> None:
+        since = run.disconnected_since
         if self._state != "ready" or since is None or time.monotonic() - since < self.stale_after:
             return
         with self._lock:
+            if run.stop.is_set():
+                return
             self._state = "stale"
         self.emit_provider_stale(ProviderEventDetails(message="lost the connection to the flags data plane"))
 
-    def _fatal(self, message: str) -> None:
-        self._stop.set()
+    def _fatal(self, run: _Run, message: str) -> None:
         with self._lock:
+            if run.stop.is_set():
+                return
+            run.stop.set()
             self._state = "fatal"
         logger.error("ezgh-flags: %s", message)
         self.emit_provider_error(ProviderEventDetails(message=message, error_code=ErrorCode.PROVIDER_FATAL))

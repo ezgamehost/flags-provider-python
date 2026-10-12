@@ -41,7 +41,7 @@ if client.get_boolean_value("new-checkout", False, ctx):
     ...
 ```
 
-`targeting_key` is what individual targets, segments and percentage rollouts match on (unless a
+`targeting_key` (or a string `targetingKey` attribute, when `targeting_key` isn't set) is what individual targets, segments and percentage rollouts match on (unless a
 rollout buckets by another attribute). Contexts are evaluated in your process and never sent
 anywhere.
 
@@ -71,10 +71,11 @@ ezgh flags export --env production > flags.json
 | Situation | What the provider does |
 | --- | --- |
 | Start | Fetches `GET /v1/sync/snapshot`, then is `READY` and follows `POST /v1/sync/stream`. Transient errors (`429`, `503`, network) are retried until `timeout`; after that `initialize` fails with `GENERAL` and the provider keeps trying in the background, emitting `PROVIDER_READY` once loaded. |
-| A flag changes | Swaps in the new snapshot and emits `PROVIDER_CONFIGURATION_CHANGED` with `flags_changed`: the keys whose config version changed, appeared or disappeared. |
+| A new snapshot | Swaps it in and emits `PROVIDER_CONFIGURATION_CHANGED` (every new version, with `metadata.snapshotVersion`). `flags_changed` lists the flags whose compiled definition changed, including through a segment they use, and flags added or removed; it can be empty. A snapshot older than the current one is ignored. |
 | The stream fails | Retries it with exponential backoff (1 s to 60 s, with jitter), honouring `Retry-After`. After 3 failures in a row it also polls the snapshot every 30 s with `If-None-Match`. |
 | Disconnected for 30 s | Keeps evaluating the last snapshot and emits `PROVIDER_STALE`; `PROVIDER_READY` again once it reconnects. |
-| `401`/`403`, or the key is revoked | `PROVIDER_ERROR` with `PROVIDER_FATAL`; it stops calling the data plane. |
+| A stream answers without a frame | Counts as a failed stream (as does a `200` that isn't `text/event-stream`). |
+| `401`/`403`, the key is revoked, or its environment is deleted | `PROVIDER_ERROR` with `PROVIDER_FATAL`; it stops calling the data plane. |
 
 Evaluation details carry `variant`, `reason` and `flag_metadata["flagVersion"]` (the flag's config
 version in the environment). The reason is `DISABLED` for a flag that is off (serving its off

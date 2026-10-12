@@ -61,3 +61,10 @@ def test_incomplete_frame_dropped_at_eof() -> None:
 def test_utf8_split_across_reads() -> None:
     raw = "data: héllo ✓\n\n".encode()
     assert parse(raw[:8], raw[8:]) == [Event(event="message", data="héllo ✓", id=None)]
+
+
+def test_comments_reported() -> None:
+    comments: list[str] = []
+    events = list(read_sse(iter([b": open\n\n:heartbeat\n\ndata: x\n\n"]), on_comment=comments.append))
+    assert comments == ["open", "heartbeat"]
+    assert events == [Event(event="message", data="x", id=None)]

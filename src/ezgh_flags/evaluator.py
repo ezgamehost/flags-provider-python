@@ -51,6 +51,10 @@ class Evaluator:
             self._flag_metadata[key] = flag_metadata if isinstance(flag_metadata, dict) else {}
             variants = flag.get("variants") or {}
             self._variants[key] = variants if isinstance(variants, dict) else {}
+        evaluators = data.get("$evaluators") or {}
+        if not isinstance(evaluators, dict):
+            raise InvalidSnapshotError("snapshot $evaluators isn't an object")
+        self._fingerprints = {key: _fingerprint(flag, evaluators) for key, flag in data["flags"].items()}
         self._core = FlagdCore()
         try:
             self._core.set_flags(data)
@@ -70,6 +74,11 @@ class Evaluator:
             out[key] = v if isinstance(v, int) and not isinstance(v, bool) else 0
         return out
 
+    def fingerprints(self) -> dict[str, str]:
+        """Each flag's compiled definition, with the $evaluators it references, as canonical JSON.
+        Two snapshots answer a flag alike exactly when its fingerprint is the same."""
+        return dict(self._fingerprints)
+
     def resolve(
         self, flag_type: FlagType, key: str, default: Any, context: EvaluationContext | None = None
     ) -> FlagResolutionDetails[Any]:
@@ -86,7 +95,7 @@ class Evaluator:
         if resolver is None:
             return _error(default, ErrorCode.GENERAL, f"unknown flag type {flag_type!r}")
         try:
-            result = resolver(key, default, context or EvaluationContext())
+            result = resolver(key, default, _promote_targeting_key(context))
         except OpenFeatureError as err:
             return _error(default, err.error_code, err.error_message)
         except Exception as err:  # a core bug must not escape into the caller's code
@@ -113,10 +122,51 @@ class Evaluator:
         )
 
 
+def _promote_targeting_key(context: EvaluationContext | None) -> EvaluationContext:
+    """A string "targetingKey" attribute becomes the targeting key when none is set (flagd's core
+    reads only EvaluationContext.targeting_key and would overwrite the attribute with None)."""
+    if context is None:
+        return EvaluationContext()
+    key = context.attributes.get("targetingKey")
+    if context.targeting_key is not None or not isinstance(key, str):
+        return context
+    attributes = {k: v for k, v in context.attributes.items() if k != "targetingKey"}
+    return EvaluationContext(targeting_key=key, attributes=attributes)
+
+
 def _error(default: Any, code: ErrorCode, message: str | None) -> FlagResolutionDetails[Any]:
     return FlagResolutionDetails(value=default, error_code=code, error_message=message, reason=Reason.ERROR)
 
 
-def changed_keys(before: Mapping[str, int], after: Mapping[str, int]) -> list[str]:
-    """Keys whose flagVersion changed, or that appeared or disappeared, sorted."""
+def _refs(node: Any, out: set[str]) -> None:
+    if isinstance(node, dict):
+        ref = node.get("$ref")
+        if len(node) == 1 and isinstance(ref, str):
+            out.add(ref)
+            return
+        for value in node.values():
+            _refs(value, out)
+    elif isinstance(node, list):
+        for value in node:
+            _refs(value, out)
+
+
+def _fingerprint(flag: Mapping[str, Any], evaluators: Mapping[str, Any]) -> str:
+    """The flag's JSON plus every evaluator it references (transitively), canonically encoded."""
+    used: dict[str, Any] = {}
+    pending: set[str] = set()
+    _refs(flag.get("targeting"), pending)
+    while pending:
+        name = pending.pop()
+        if name in used:
+            continue
+        used[name] = evaluators.get(name)
+        found: set[str] = set()
+        _refs(used[name], found)
+        pending |= found - used.keys()
+    return json.dumps({"flag": flag, "evaluators": used}, sort_keys=True, separators=(",", ":"))
+
+
+def changed_keys(before: Mapping[str, object], after: Mapping[str, object]) -> list[str]:
+    """Keys whose value (a fingerprint) changed, or that appeared or disappeared, sorted."""
     return sorted(k for k in before.keys() | after.keys() if before.get(k) != after.get(k))

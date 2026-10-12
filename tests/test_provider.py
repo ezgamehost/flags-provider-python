@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import itertools
 import json
 import queue
 import socket
@@ -342,3 +343,175 @@ def test_bad_snapshot_event_keeps_the_last_one(fake: FakeDataPlane) -> None:
     fake.set_snapshot(broken)
     time.sleep(0.3)
     assert client.get_boolean_value("new-checkout", False) is True
+
+
+# ---- review fixes
+
+
+def test_invalid_snapshot_on_initialize_is_not_ready(fake: FakeDataPlane) -> None:
+    broken = make_snapshot(1)
+    broken["flags"] = ["not", "an", "object"]
+    fake.set_snapshot(broken)
+    domain = str(uuid.uuid4())
+    provider = fast(EzghProvider(fake.sdk_key, endpoint=fake.url, timeout=0.5))
+    client = api.get_client(domain)
+    events = Events(client)
+    with pytest.raises(GeneralError) as raised:
+        api.set_provider_and_wait(provider, domain)
+    assert "invalid snapshot" in (raised.value.error_message or "")
+    assert len(fake.requests_to(SNAPSHOT_PATH)) >= 2, "retried until the timeout"
+    assert client.get_provider_status() == ProviderStatus.ERROR
+    assert client.get_boolean_details("new-checkout", False).error_code == ErrorCode.PROVIDER_NOT_READY
+    events.drain()
+    fake.set_snapshot(make_snapshot(2))
+    events.wait(ProviderEvent.PROVIDER_READY)
+    assert client.get_boolean_value("new-checkout", False) is True
+
+
+def test_older_snapshot_ignored(fake: FakeDataPlane) -> None:
+    _, client = start(fake)
+    events = Events(client)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.set_snapshot(make_snapshot(3, {"new-checkout": (False, 2)}))
+    events.wait(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED)
+    events.drain()
+    fake.set_snapshot(make_snapshot(2, {"new-checkout": (True, 1)}))
+    time.sleep(0.3)
+    assert client.get_boolean_value("new-checkout", True) is False
+    assert events.q.empty(), "no event for an older snapshot"
+    # And the next stream still says what it has.
+    fake.end_streams("rotate")
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) == 2)
+    assert fake.requests_to(STREAM_PATH)[1].json() == {"version": 3}
+
+
+def test_environment_deleted_is_fatal(fake: FakeDataPlane) -> None:
+    _, client = start(fake)
+    events = Events(client)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    events.drain()
+    fake.end_streams("environmentDeleted")
+    details = events.wait(ProviderEvent.PROVIDER_ERROR)
+    assert details.error_code == ErrorCode.PROVIDER_FATAL
+    n = len(fake.requests)
+    time.sleep(0.4)
+    assert len(fake.requests) == n
+
+
+def test_polling_honours_retry_after(fake: FakeDataPlane) -> None:
+    start(fake)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.fail(503, paths=(STREAM_PATH,))
+    fake.fail(429, retry_after=1, paths=(SNAPSHOT_PATH,))
+    fake.drop_streams()
+    fake.wait_for(lambda: len(fake.requests_to(SNAPSHOT_PATH)) >= 4, timeout=10)
+    polls = fake.requests_to(SNAPSHOT_PATH)[1:]
+    gaps = [b.at - a.at for a, b in itertools.pairwise(polls)]
+    assert all(gap >= 0.95 for gap in gaps), gaps
+
+
+def test_unexpected_error_keeps_syncing(fake: FakeDataPlane, monkeypatch: pytest.MonkeyPatch) -> None:
+    import ezgh_flags.provider as provider_module
+
+    real = getattr(provider_module, "read_sse")  # noqa: B009
+    calls = 0
+
+    def flaky(*args: object, **kwargs: object) -> object:
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            raise RuntimeError("boom")
+        return real(*args, **kwargs)
+
+    monkeypatch.setattr(provider_module, "read_sse", flaky)
+    _, client = start(fake)
+    events = Events(client)
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) == 2)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.set_snapshot(make_snapshot(2, {"new-checkout": (False, 2)}))
+    events.wait(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED)
+    assert client.get_provider_status() == ProviderStatus.READY
+
+
+def sync_threads() -> int:
+    import threading
+
+    return sum(1 for t in threading.enumerate() if t.name == "ezgh-flags-sync")
+
+
+def test_reinitialize_leaves_one_thread(fake: FakeDataPlane) -> None:
+    from openfeature.evaluation_context import EvaluationContext
+
+    provider, _ = start(fake)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    before = sync_threads()
+    # A second initialize (as after a shutdown whose join timed out) replaces the first run.
+    provider.initialize(EvaluationContext())
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) == 2)
+    fake.wait_for(lambda: fake.open_streams == 1 and sync_threads() == before)
+    provider.shutdown()
+    fake.wait_for(lambda: fake.open_streams == 0 and sync_threads() == before - 1)
+
+
+def test_shutdown_during_initialize(fake: FakeDataPlane) -> None:
+    import threading
+
+    from openfeature.evaluation_context import EvaluationContext
+
+    fake.fail(503, paths=(SNAPSHOT_PATH,))
+    provider = fast(EzghProvider(fake.sdk_key, endpoint=fake.url, timeout=5))
+    provider.min_backoff = provider.max_backoff = 0.5
+    errors: list[BaseException] = []
+
+    def init() -> None:
+        try:
+            provider.initialize(EvaluationContext())
+        except BaseException as err:
+            errors.append(err)
+
+    before = sync_threads()
+    t = threading.Thread(target=init)
+    t.start()
+    fake.wait_for(lambda: len(fake.requests_to(SNAPSHOT_PATH)) == 1)
+    provider.shutdown()
+    t.join(timeout=2)
+    assert not t.is_alive()
+    assert len(errors) == 1 and isinstance(errors[0], GeneralError)
+    time.sleep(0.2)
+    assert sync_threads() == before
+    assert fake.requests_to(STREAM_PATH) == []
+
+
+@pytest.mark.parametrize("mode", ["wrong content type", "closes at once"])
+def test_stream_without_frames_is_a_failure(fake: FakeDataPlane, mode: str) -> None:
+    _, client = start(fake)
+    events = Events(client)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    events.drain()
+    if mode == "wrong content type":
+        fake.stream_content_type = "application/json"
+    else:
+        fake.stream_closes_at_once = True
+    fake.drop_streams()
+    # Each 200 without a frame counts as a failure: polling starts, and the provider goes stale.
+    fake.wait_for(lambda: len(fake.requests_to(SNAPSHOT_PATH)) >= 2)
+    fake.fail(503, paths=(SNAPSHOT_PATH,))
+    events.wait(ProviderEvent.PROVIDER_STALE)
+
+
+def test_configuration_changed_fires_for_every_version(fake: FakeDataPlane) -> None:
+    _, client = start(fake)
+    events = Events(client)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    events.drain()
+    # A new version that changes no flag (e.g. an unused segment edit) still fires, with no keys.
+    fake.set_snapshot(make_snapshot(2))
+    details = events.wait(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED)
+    assert details.flags_changed == []
+    assert details.metadata == {"snapshotVersion": 2}
+    # A changed definition with the same flagVersion is still named.
+    snapshot = make_snapshot(3)
+    snapshot["flags"]["new-checkout"]["defaultVariant"] = "false"
+    fake.set_snapshot(snapshot)
+    details = events.wait(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED)
+    assert details.flags_changed == ["new-checkout"]

@@ -71,6 +71,8 @@ class FakeDataPlane:
         self._closed = False
         self._failures: list[_Failure] = []
         self.open_streams = 0
+        self.stream_content_type = "text/event-stream; charset=utf-8"
+        self.stream_closes_at_once = False  # answer 200, then close without a byte
         fake = self
 
         class Handler(BaseHTTPRequestHandler):
@@ -212,9 +214,11 @@ class FakeDataPlane:
     def _serve_stream(self, h: BaseHTTPRequestHandler, body: bytes) -> None:
         known = (json.loads(body) if body else {}).get("version")
         h.send_response(200)
-        h.send_header("Content-Type", "text/event-stream; charset=utf-8")
+        h.send_header("Content-Type", self.stream_content_type)
         h.send_header("Cache-Control", "no-store")
         h.end_headers()
+        if self.stream_closes_at_once:
+            return
 
         def write(frame: str) -> bool:
             try:
