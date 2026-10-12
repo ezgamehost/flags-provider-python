@@ -71,8 +71,9 @@ ezgh flags export --env production > flags.json
 | Situation | What the provider does |
 | --- | --- |
 | Start | Fetches `GET /v1/sync/snapshot`, then is `READY` and follows `POST /v1/sync/stream`. Transient errors (`429`, `503`, network) are retried until `timeout`; after that `initialize` fails with `GENERAL` and the provider keeps trying in the background, emitting `PROVIDER_READY` once loaded. |
-| A new snapshot | Swaps it in and emits `PROVIDER_CONFIGURATION_CHANGED` (every new version, with `metadata.snapshotVersion`). `flags_changed` lists the flags whose compiled definition changed, including through a segment they use, and flags added or removed; it can be empty. A snapshot older than the current one is ignored. |
-| The stream fails | Retries it with exponential backoff (1 s to 60 s, with jitter), honouring `Retry-After`. After 3 failures in a row it also polls the snapshot every 30 s with `If-None-Match`. |
+| A new snapshot | Swaps it in and emits `PROVIDER_CONFIGURATION_CHANGED` (every new version, with `metadata.snapshotVersion`). `flags_changed` lists the flags whose compiled definition changed, including a segment they use, and flags added or removed; it can be empty. A snapshot older than the current one is ignored. |
+| The stream ends | `rotate`: reconnects at once. `shutdown` (a draining pod): reconnects after a short jitter. Any other reason counts as a failure. |
+| The stream fails | Retries it with exponential backoff (1 s to 60 s, with jitter), honouring `Retry-After` up to 60 s. After 3 failures in a row it also polls the snapshot every 30 s with `If-None-Match`. |
 | Disconnected for 30 s | Keeps evaluating the last snapshot and emits `PROVIDER_STALE`; `PROVIDER_READY` again once it reconnects. |
 | A stream answers without a frame | Counts as a failed stream (as does a `200` that isn't `text/event-stream`). |
 | `401`/`403`, the key is revoked, or its environment is deleted | `PROVIDER_ERROR` with `PROVIDER_FATAL`; it stops calling the data plane. |

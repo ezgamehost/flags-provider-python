@@ -8,30 +8,6 @@
       "snapshotVersion": 1,
       "compiledAt": "2026-10-11T09:00:00Z"
     },
-    "$evaluators": {
-      "vip": {
-        "and": [
-          {
-            "starts_with": [
-              {
-                "var": "targetingKey"
-              },
-              ""
-            ]
-          },
-          {
-            "in": [
-              {
-                "var": "targetingKey"
-              },
-              [
-                "user-vip"
-              ]
-            ]
-          }
-        ]
-      }
-    },
     "flags": {
       "absent-bucket": {
         "state": "ENABLED",
@@ -810,7 +786,26 @@
                 },
                 {
                   "!": {
-                    "$ref": "vip"
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "user-vip"
+                          ]
+                        ]
+                      }
+                    ]
                   }
                 }
               ]

@@ -286,9 +286,14 @@ class EzghProvider(AbstractProvider):
             return  # stopping, or a routine rotation: reconnect at once
         if reason in _FATAL_END_REASONS:
             raise _Fatal(f"the stream ended: {reason}")
-        # "shutdown" (the pod is draining) and anything else: reconnect after a jitter.
-        logger.debug("ezgh-flags: stream ended (%s)", reason)
-        run.stop.wait(random.uniform(0, self.min_backoff))
+        if reason == "shutdown":
+            # The pod is draining: reconnect (to another pod) after a short jitter. Not a failure.
+            run.stop.wait(random.uniform(0, self.min_backoff))
+            return
+        # An end reason this provider doesn't know: a failure, with backoff.
+        logger.info("ezgh-flags: stream ended (%r)", reason)
+        self._failed(run)
+        self._wait_before_retry(run, None)
 
     def _failed(self, run: _Run) -> None:
         run.failures += 1
@@ -320,7 +325,7 @@ class EzghProvider(AbstractProvider):
         except _Transient as err:
             logger.info("ezgh-flags: snapshot poll failed (%s)", err)
             if err.retry_after is not None:
-                run.next_poll = max(run.next_poll, time.monotonic() + err.retry_after)
+                run.next_poll = max(run.next_poll, time.monotonic() + self._cap(err.retry_after))
             return
         if body is None:
             self._contact(run)
@@ -438,7 +443,11 @@ class EzghProvider(AbstractProvider):
     def _delay(self, failures: int, retry_after: float | None) -> float:
         base = min(self.max_backoff, self.min_backoff * 2.0 ** max(0, failures - 1))
         delay = base / 2 + random.uniform(0, base / 2)
-        return max(delay, retry_after or 0.0)
+        return max(delay, self._cap(retry_after))
+
+    def _cap(self, retry_after: float | None) -> float:
+        """Retry-After, honoured up to the maximum backoff."""
+        return min(retry_after or 0.0, self.max_backoff)
 
     # ---- HTTP (standard library only)
 

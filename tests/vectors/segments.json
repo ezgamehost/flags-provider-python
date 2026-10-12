@@ -1,377 +1,12 @@
 {
   "name": "segments",
-  "description": "Segments: included, excluded beats included, excluded beats a rule match, rule match (rules ORed, clauses ANDed), no match, an empty segment matches nobody, notSegmentMatch, several segments in one clause (ORed), a segment and an attribute in one rule.",
+  "description": "Segments: included, excluded beats included, excluded beats a rule match, rule match (rules ORed, clauses ANDed), no match, an empty segment matches nobody, notSegmentMatch, several segments in one clause (ORed), a segment and an attribute in one rule; values with non-ASCII characters, backslashes, newlines, $ patterns and backticks in included, excluded and rule values.",
   "snapshot": {
     "$schema": "https://flagd.dev/schema/v0/flags.json",
     "metadata": {
       "environmentId": "0199a3c2-8d31-7f02-a4b5-6c7d8e9f0a1b",
       "snapshotVersion": 1,
       "compiledAt": "2026-10-11T09:00:00Z"
-    },
-    "$evaluators": {
-      "beta-testers": {
-        "and": [
-          {
-            "!": {
-              "and": [
-                {
-                  "starts_with": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    ""
-                  ]
-                },
-                {
-                  "in": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    [
-                      "user-3"
-                    ]
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "and": [
-              {
-                "starts_with": [
-                  {
-                    "var": "targetingKey"
-                  },
-                  ""
-                ]
-              },
-              {
-                "in": [
-                  {
-                    "var": "targetingKey"
-                  },
-                  [
-                    "user-1",
-                    "user-2",
-                    "user-3"
-                  ]
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "everyone-but": {
-        "and": [
-          {
-            "!": {
-              "and": [
-                {
-                  "starts_with": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    ""
-                  ]
-                },
-                {
-                  "in": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    [
-                      "user-x"
-                    ]
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "and": [
-              {
-                "!==": [
-                  {
-                    "var": "plan"
-                  },
-                  null
-                ]
-              },
-              {
-                "!": {
-                  "and": [
-                    {
-                      "starts_with": [
-                        {
-                          "var": "plan"
-                        },
-                        ""
-                      ]
-                    },
-                    {
-                      "in": [
-                        {
-                          "var": "plan"
-                        },
-                        [
-                          "__none__"
-                        ]
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "nobody": false,
-      "pro-users": {
-        "and": [
-          {
-            "!": {
-              "and": [
-                {
-                  "starts_with": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    ""
-                  ]
-                },
-                {
-                  "in": [
-                    {
-                      "var": "targetingKey"
-                    },
-                    [
-                      "user-11"
-                    ]
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "or": [
-              {
-                "and": [
-                  {
-                    "starts_with": [
-                      {
-                        "var": "targetingKey"
-                      },
-                      ""
-                    ]
-                  },
-                  {
-                    "in": [
-                      {
-                        "var": "targetingKey"
-                      },
-                      [
-                        "user-10"
-                      ]
-                    ]
-                  }
-                ]
-              },
-              {
-                "and": [
-                  {
-                    "starts_with": [
-                      {
-                        "var": "plan"
-                      },
-                      ""
-                    ]
-                  },
-                  {
-                    "in": [
-                      {
-                        "var": "plan"
-                      },
-                      [
-                        "pro"
-                      ]
-                    ]
-                  }
-                ]
-              },
-              {
-                "and": [
-                  {
-                    "and": [
-                      {
-                        "starts_with": [
-                          {
-                            "var": "plan"
-                          },
-                          ""
-                        ]
-                      },
-                      {
-                        "in": [
-                          {
-                            "var": "plan"
-                          },
-                          [
-                            "team"
-                          ]
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "and": [
-                      {
-                        "and": [
-                          {
-                            "!==": [
-                              {
-                                "var": "seats"
-                              },
-                              null
-                            ]
-                          },
-                          {
-                            "!": {
-                              "starts_with": [
-                                {
-                                  "var": "seats"
-                                },
-                                ""
-                              ]
-                            }
-                          },
-                          {
-                            "===": [
-                              {
-                                "var": "seats"
-                              },
-                              {
-                                "var": "seats"
-                              }
-                            ]
-                          },
-                          {
-                            "in": [
-                              {
-                                "var": "seats"
-                              },
-                              {
-                                "merge": [
-                                  {
-                                    "var": "seats"
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "!": {
-                              "if": [
-                                {
-                                  "===": [
-                                    {
-                                      "var": "seats"
-                                    },
-                                    1
-                                  ]
-                                },
-                                {
-                                  "in": [
-                                    {
-                                      "cat": [
-                                        {
-                                          "var": "seats"
-                                        }
-                                      ]
-                                    },
-                                    [
-                                      "true",
-                                      "True"
-                                    ]
-                                  ]
-                                },
-                                {
-                                  "===": [
-                                    {
-                                      "var": "seats"
-                                    },
-                                    true
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "!": {
-                              "if": [
-                                {
-                                  "===": [
-                                    {
-                                      "var": "seats"
-                                    },
-                                    0
-                                  ]
-                                },
-                                {
-                                  "in": [
-                                    {
-                                      "cat": [
-                                        {
-                                          "var": "seats"
-                                        }
-                                      ]
-                                    },
-                                    [
-                                      "false",
-                                      "False"
-                                    ]
-                                  ]
-                                },
-                                {
-                                  "===": [
-                                    {
-                                      "var": "seats"
-                                    },
-                                    false
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "!==": [
-                              {
-                                "cat": [
-                                  {
-                                    "var": "seats"
-                                  }
-                                ]
-                              },
-                              "[object Object]"
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        ">=": [
-                          {
-                            "var": "seats"
-                          },
-                          10
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
     },
     "flags": {
       "seg-and-attr": {
@@ -390,7 +25,250 @@
             {
               "and": [
                 {
-                  "$ref": "pro-users"
+                  "and": [
+                    {
+                      "!": {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              [
+                                "user-11"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "or": [
+                        {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                [
+                                  "user-10"
+                                ]
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "plan"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "plan"
+                                },
+                                [
+                                  "pro"
+                                ]
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "and": [
+                            {
+                              "and": [
+                                {
+                                  "starts_with": [
+                                    {
+                                      "var": "plan"
+                                    },
+                                    ""
+                                  ]
+                                },
+                                {
+                                  "in": [
+                                    {
+                                      "var": "plan"
+                                    },
+                                    [
+                                      "team"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "and": [
+                                {
+                                  "and": [
+                                    {
+                                      "!==": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        null
+                                      ]
+                                    },
+                                    {
+                                      "!": {
+                                        "starts_with": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          ""
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "===": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "in": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        {
+                                          "merge": [
+                                            {
+                                              "var": "seats"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "!": {
+                                        "if": [
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              1
+                                            ]
+                                          },
+                                          {
+                                            "in": [
+                                              {
+                                                "cat": [
+                                                  {
+                                                    "var": "seats"
+                                                  }
+                                                ]
+                                              },
+                                              [
+                                                "true",
+                                                "True"
+                                              ]
+                                            ]
+                                          },
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              true
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "!": {
+                                        "if": [
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              0
+                                            ]
+                                          },
+                                          {
+                                            "in": [
+                                              {
+                                                "cat": [
+                                                  {
+                                                    "var": "seats"
+                                                  }
+                                                ]
+                                              },
+                                              [
+                                                "false",
+                                                "False"
+                                              ]
+                                            ]
+                                          },
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              false
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "!==": [
+                                        {
+                                          "cat": [
+                                            {
+                                              "var": "seats"
+                                            }
+                                          ]
+                                        },
+                                        "[object Object]"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  ">=": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    10
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
                   "and": [
@@ -436,10 +314,302 @@
             {
               "or": [
                 {
-                  "$ref": "beta-testers"
+                  "and": [
+                    {
+                      "!": {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              [
+                                "user-3"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "and": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            [
+                              "user-1",
+                              "user-2",
+                              "user-3"
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
-                  "$ref": "pro-users"
+                  "and": [
+                    {
+                      "!": {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              [
+                                "user-11"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "or": [
+                        {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                [
+                                  "user-10"
+                                ]
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "plan"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "plan"
+                                },
+                                [
+                                  "pro"
+                                ]
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "and": [
+                            {
+                              "and": [
+                                {
+                                  "starts_with": [
+                                    {
+                                      "var": "plan"
+                                    },
+                                    ""
+                                  ]
+                                },
+                                {
+                                  "in": [
+                                    {
+                                      "var": "plan"
+                                    },
+                                    [
+                                      "team"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "and": [
+                                {
+                                  "and": [
+                                    {
+                                      "!==": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        null
+                                      ]
+                                    },
+                                    {
+                                      "!": {
+                                        "starts_with": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          ""
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "===": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "in": [
+                                        {
+                                          "var": "seats"
+                                        },
+                                        {
+                                          "merge": [
+                                            {
+                                              "var": "seats"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "!": {
+                                        "if": [
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              1
+                                            ]
+                                          },
+                                          {
+                                            "in": [
+                                              {
+                                                "cat": [
+                                                  {
+                                                    "var": "seats"
+                                                  }
+                                                ]
+                                              },
+                                              [
+                                                "true",
+                                                "True"
+                                              ]
+                                            ]
+                                          },
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              true
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "!": {
+                                        "if": [
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              0
+                                            ]
+                                          },
+                                          {
+                                            "in": [
+                                              {
+                                                "cat": [
+                                                  {
+                                                    "var": "seats"
+                                                  }
+                                                ]
+                                              },
+                                              [
+                                                "false",
+                                                "False"
+                                              ]
+                                            ]
+                                          },
+                                          {
+                                            "===": [
+                                              {
+                                                "var": "seats"
+                                              },
+                                              false
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "!==": [
+                                        {
+                                          "cat": [
+                                            {
+                                              "var": "seats"
+                                            }
+                                          ]
+                                        },
+                                        "[object Object]"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  ">=": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    10
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -461,7 +631,56 @@
         "targeting": {
           "if": [
             {
-              "$ref": "beta-testers"
+              "and": [
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "user-3"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "targetingKey"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "targetingKey"
+                        },
+                        [
+                          "user-1",
+                          "user-2",
+                          "user-3"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             "true"
           ]
@@ -481,7 +700,68 @@
         "targeting": {
           "if": [
             {
-              "$ref": "everyone-but"
+              "and": [
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "user-x"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "and": [
+                    {
+                      "!==": [
+                        {
+                          "var": "plan"
+                        },
+                        null
+                      ]
+                    },
+                    {
+                      "!": {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "plan"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "plan"
+                              },
+                              [
+                                "__none__"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
             },
             "true"
           ]
@@ -500,9 +780,7 @@
         },
         "targeting": {
           "if": [
-            {
-              "$ref": "nobody"
-            },
+            false,
             "true"
           ]
         }
@@ -532,7 +810,56 @@
                 },
                 {
                   "!": {
-                    "$ref": "beta-testers"
+                    "and": [
+                      {
+                        "!": {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "targetingKey"
+                                },
+                                [
+                                  "user-3"
+                                ]
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "and": [
+                          {
+                            "starts_with": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              ""
+                            ]
+                          },
+                          {
+                            "in": [
+                              {
+                                "var": "targetingKey"
+                              },
+                              [
+                                "user-1",
+                                "user-2",
+                                "user-3"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               ]
@@ -565,9 +892,7 @@
                   ]
                 },
                 {
-                  "!": {
-                    "$ref": "nobody"
-                  }
+                  "!": false
                 }
               ]
             },
@@ -589,7 +914,571 @@
         "targeting": {
           "if": [
             {
-              "$ref": "pro-users"
+              "and": [
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "user-11"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "or": [
+                    {
+                      "and": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "targetingKey"
+                            },
+                            [
+                              "user-10"
+                            ]
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "and": [
+                        {
+                          "starts_with": [
+                            {
+                              "var": "plan"
+                            },
+                            ""
+                          ]
+                        },
+                        {
+                          "in": [
+                            {
+                              "var": "plan"
+                            },
+                            [
+                              "pro"
+                            ]
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "and": [
+                        {
+                          "and": [
+                            {
+                              "starts_with": [
+                                {
+                                  "var": "plan"
+                                },
+                                ""
+                              ]
+                            },
+                            {
+                              "in": [
+                                {
+                                  "var": "plan"
+                                },
+                                [
+                                  "team"
+                                ]
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "and": [
+                            {
+                              "and": [
+                                {
+                                  "!==": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    null
+                                  ]
+                                },
+                                {
+                                  "!": {
+                                    "starts_with": [
+                                      {
+                                        "var": "seats"
+                                      },
+                                      ""
+                                    ]
+                                  }
+                                },
+                                {
+                                  "===": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    {
+                                      "var": "seats"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "in": [
+                                    {
+                                      "var": "seats"
+                                    },
+                                    {
+                                      "merge": [
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "!": {
+                                    "if": [
+                                      {
+                                        "===": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          1
+                                        ]
+                                      },
+                                      {
+                                        "in": [
+                                          {
+                                            "cat": [
+                                              {
+                                                "var": "seats"
+                                              }
+                                            ]
+                                          },
+                                          [
+                                            "true",
+                                            "True"
+                                          ]
+                                        ]
+                                      },
+                                      {
+                                        "===": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "!": {
+                                    "if": [
+                                      {
+                                        "===": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          0
+                                        ]
+                                      },
+                                      {
+                                        "in": [
+                                          {
+                                            "cat": [
+                                              {
+                                                "var": "seats"
+                                              }
+                                            ]
+                                          },
+                                          [
+                                            "false",
+                                            "False"
+                                          ]
+                                        ]
+                                      },
+                                      {
+                                        "===": [
+                                          {
+                                            "var": "seats"
+                                          },
+                                          false
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "!==": [
+                                    {
+                                      "cat": [
+                                        {
+                                          "var": "seats"
+                                        }
+                                      ]
+                                    },
+                                    "[object Object]"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              ">=": [
+                                {
+                                  "var": "seats"
+                                },
+                                10
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-special-in": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    [
+                      "$1",
+                      "Zürich",
+                      "\\1",
+                      "a$$b",
+                      "a$&b",
+                      "a$'b",
+                      "a$`b",
+                      "a\\b",
+                      "back`tick",
+                      "josé",
+                      "line\nbreak",
+                      "{\"$ref\":\"x\"}",
+                      "日本"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-special-not": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "targetingKey"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "$1",
+                            "Zürich",
+                            "\\1",
+                            "a$$b",
+                            "a$&b",
+                            "a$'b",
+                            "a$`b",
+                            "a\\b",
+                            "back`tick",
+                            "josé",
+                            "line\nbreak",
+                            "{\"$ref\":\"x\"}",
+                            "日本"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-special-out": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "!": {
+                    "and": [
+                      {
+                        "starts_with": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          ""
+                        ]
+                      },
+                      {
+                        "in": [
+                          {
+                            "var": "targetingKey"
+                          },
+                          [
+                            "$1",
+                            "Zürich",
+                            "\\1",
+                            "a$$b",
+                            "a$&b",
+                            "a$'b",
+                            "a$`b",
+                            "a\\b",
+                            "back`tick",
+                            "josé",
+                            "line\nbreak",
+                            "{\"$ref\":\"x\"}",
+                            "日本"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "plan"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "plan"
+                        },
+                        [
+                          "pro"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "seg-special-rule": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "or": [
+                {
+                  "and": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "city"
+                        },
+                        ""
+                      ]
+                    },
+                    {
+                      "in": [
+                        {
+                          "var": "city"
+                        },
+                        [
+                          "josé",
+                          "Zürich",
+                          "a\\b",
+                          "line\nbreak",
+                          "a$&b",
+                          "a$'b",
+                          "a$`b",
+                          "a$$b",
+                          "back`tick",
+                          "$1",
+                          "\\1",
+                          "{\"$ref\":\"x\"}",
+                          "日本"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "or": [
+                    {
+                      "starts_with": [
+                        {
+                          "var": "city"
+                        },
+                        "$&"
+                      ]
+                    },
+                    {
+                      "starts_with": [
+                        {
+                          "var": "city"
+                        },
+                        "\\"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "true"
+          ]
+        }
+      },
+      "special-clause": {
+        "state": "ENABLED",
+        "variants": {
+          "false": false,
+          "true": true
+        },
+        "defaultVariant": "false",
+        "metadata": {
+          "flagVersion": 1,
+          "enabled": true
+        },
+        "targeting": {
+          "if": [
+            {
+              "and": [
+                {
+                  "starts_with": [
+                    {
+                      "var": "city"
+                    },
+                    ""
+                  ]
+                },
+                {
+                  "in": [
+                    {
+                      "var": "city"
+                    },
+                    [
+                      "josé",
+                      "Zürich",
+                      "a\\b",
+                      "line\nbreak",
+                      "a$&b",
+                      "a$'b",
+                      "a$`b",
+                      "a$$b",
+                      "back`tick",
+                      "$1",
+                      "\\1",
+                      "{\"$ref\":\"x\"}",
+                      "日本"
+                    ]
+                  ]
+                }
+              ]
             },
             "true"
           ]
@@ -2478,6 +3367,1956 @@
       "context": {
         "plan": null,
         "targetingKey": "user-y"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "josé"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "josé"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "josé"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "josé",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "josé",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zürich"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zürich"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zürich"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "Zürich",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "Zürich",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a\\b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a\\b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line\nbreak"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line\nbreak"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line\nbreak"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "line\nbreak",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "line\nbreak",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$&b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$&b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$&b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$&b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$&b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$'b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$'b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$'b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$'b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$'b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$`b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$`b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$`b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$`b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$`b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$$b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$$b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "back`tick"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "back`tick"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "back`tick"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "back`tick",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "back`tick",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "$1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "$1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "$1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "$1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "$1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "\\1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "\\1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "{\"$ref\":\"x\"}"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "{\"$ref\":\"x\"}"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "{\"$ref\":\"x\"}"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "{\"$ref\":\"x\"}",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "{\"$ref\":\"x\"}",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日本"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日本"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日本"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "日本",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "日本",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "jose"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "jose"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "jose"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "jose",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "jose",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zurich"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zurich"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "Zurich"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "Zurich",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "Zurich",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\\\b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\\\b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a\\\\b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a\\\\b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a\\\\b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "line"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "line",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "line",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "ab"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "ab"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "ab"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "ab",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "ab",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "a$b"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "a$b",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "backtick"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "backtick"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "backtick"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "backtick",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "backtick",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "1"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "1"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "1",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "\\"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "\\",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "\\",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "x"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "x"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "x",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "x",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-in",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-out",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-not",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "plan": "pro",
+        "targetingKey": "日"
+      },
+      "expect": {
+        "value": true,
+        "variant": "true",
+        "reason": "TARGETING_MATCH",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "seg-special-rule",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "日",
+        "targetingKey": "u"
+      },
+      "expect": {
+        "value": false,
+        "variant": "false",
+        "reason": "DEFAULT",
+        "flagVersion": 1
+      }
+    },
+    {
+      "flag": "special-clause",
+      "type": "boolean",
+      "default": false,
+      "context": {
+        "city": "日",
+        "targetingKey": "u"
       },
       "expect": {
         "value": false,

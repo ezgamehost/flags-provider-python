@@ -62,3 +62,15 @@ def test_segment_change_names_the_flags_using_it() -> None:
     c = Evaluator(with_segment(3, ["user-1", "user-2"]))
     assert changed_keys(b.fingerprints(), c.fingerprints()) == []
     assert b.resolve("boolean", "uses-segment", False, EvaluationContext("user-2")).value is True
+
+
+def test_inlined_segment_change_names_the_flag() -> None:
+    def snapshot(version: int, members: list[str]) -> str:
+        s = json.loads(json.dumps(SNAPSHOT))
+        s["metadata"]["snapshotVersion"] = version
+        s["flags"]["beta"]["targeting"] = {"if": [{"in": [{"var": "targetingKey"}, members]}, "true"]}
+        return json.dumps(s)
+
+    a, b = Evaluator(snapshot(1, ["user-1"])), Evaluator(snapshot(2, ["user-1", "user-2"]))
+    assert "$evaluators" not in json.loads(snapshot(1, []))
+    assert changed_keys(a.fingerprints(), b.fingerprints()) == ["beta"]

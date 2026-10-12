@@ -76,9 +76,10 @@ class Events:
             self.q.get_nowait()
 
 
-def start(fake: FakeDataPlane, **kwargs: object) -> tuple[EzghProvider, OpenFeatureClient]:
+def start(fake: FakeDataPlane, *, max_backoff: float = 0.2, **kwargs: object) -> tuple[EzghProvider, OpenFeatureClient]:
     domain = str(uuid.uuid4())
     provider = fast(EzghProvider(fake.sdk_key, endpoint=fake.url, **kwargs))  # type: ignore[arg-type]
+    provider.max_backoff = max_backoff
     api.set_provider_and_wait(provider, domain)
     return provider, api.get_client(domain)
 
@@ -234,14 +235,14 @@ def test_revoked_while_streaming_is_fatal(fake: FakeDataPlane) -> None:
 
 def test_honours_retry_after_on_initialize(fake: FakeDataPlane) -> None:
     fake.fail(429, retry_after=1, paths=(SNAPSHOT_PATH,), times=1)
-    _, client = start(fake)
+    _, client = start(fake, max_backoff=2)
     first, second = fake.requests_to(SNAPSHOT_PATH)
     assert second.at - first.at >= 0.95
     assert client.get_boolean_value("new-checkout", False) is True
 
 
 def test_honours_retry_after_on_stream(fake: FakeDataPlane) -> None:
-    start(fake)
+    start(fake, max_backoff=2)
     fake.wait_for(lambda: fake.open_streams == 1)
     fake.fail(429, retry_after=1, paths=(STREAM_PATH,), times=1)
     fake.drop_streams()
@@ -399,7 +400,7 @@ def test_environment_deleted_is_fatal(fake: FakeDataPlane) -> None:
 
 
 def test_polling_honours_retry_after(fake: FakeDataPlane) -> None:
-    start(fake)
+    start(fake, max_backoff=2)
     fake.wait_for(lambda: fake.open_streams == 1)
     fake.fail(503, paths=(STREAM_PATH,))
     fake.fail(429, retry_after=1, paths=(SNAPSHOT_PATH,))
@@ -515,3 +516,32 @@ def test_configuration_changed_fires_for_every_version(fake: FakeDataPlane) -> N
     fake.set_snapshot(snapshot)
     details = events.wait(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED)
     assert details.flags_changed == ["new-checkout"]
+
+
+def test_retry_after_capped_at_max_backoff(fake: FakeDataPlane) -> None:
+    start(fake, max_backoff=0.2)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.fail(429, retry_after=30, paths=(STREAM_PATH,), times=1)
+    fake.drop_streams()
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) == 3, timeout=2)
+
+
+def test_end_shutdown_reconnects_without_a_failure(fake: FakeDataPlane) -> None:
+    provider, client = start(fake)
+    provider.stream_failures_before_poll = 1
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.end_streams("shutdown")
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) == 2)
+    fake.wait_for(lambda: fake.open_streams == 1)
+    assert len(fake.requests_to(SNAPSHOT_PATH)) == 1, "no poll: a drain isn't a failure"
+    assert client.get_provider_status() == ProviderStatus.READY
+
+
+def test_end_unknown_reason_is_a_failure(fake: FakeDataPlane) -> None:
+    provider, _ = start(fake)
+    provider.stream_failures_before_poll = 1
+    fake.wait_for(lambda: fake.open_streams == 1)
+    fake.end_streams("somethingNew")
+    # Counted as a failure: with one failure enough to poll, the snapshot is polled.
+    fake.wait_for(lambda: len(fake.requests_to(SNAPSHOT_PATH)) >= 2)
+    fake.wait_for(lambda: len(fake.requests_to(STREAM_PATH)) >= 2)
